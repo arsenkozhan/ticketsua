@@ -29,11 +29,11 @@ const configs = [
     
 ];
 
-const tabList = ['Main', 'Personal office', 'All events', 'About'];
+const tabList = ['Main', 'All events', 'Personal office', 'About'];
 
 function TabContainer({ children, dir }) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} >
       {children}
     </Typography>
   );
@@ -53,6 +53,9 @@ const styles = theme => ({
       padding: 15,
       flexWrap: 'wrap',
       justifyContent: 'center'
+  },
+  mainPageWrapper: {
+    padding: 0
   }
 });
 
@@ -73,16 +76,17 @@ class FullWidthTabs extends React.Component {
     const { classes, theme } = this.props;
 
     const panels = () => {
-      return configs.map((item) =>
+      return configs.map((item, index) =>
         <MediaCard
           cardName={item.name}
+          key={index} 
           imgUrl={item.url}
           text={item.info}
         />
         )
     }
     const tabs = () => {
-        return tabList.map((item) => <Tab label={item} />)
+        return tabList.map((item, index) => <Tab key={index} label={item} />)
     };  
 
     return (
@@ -103,7 +107,15 @@ class FullWidthTabs extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>Personal office</TabContainer>
+          <TabContainer className={classes.mainPageWrapper} dir={theme.direction}>
+            <div className="header">
+              <div className="header_title">Buy tickets online</div>
+              <div className="header_slogan">Buy a ticket to a concert of your favorite artist<br/> without leaving your home</div>
+              <div className="header_arrow">
+                  <i className="fa fa-chevron-down"></i>
+              </div>
+            </div> 
+          </TabContainer>
           <TabContainer dir={theme.direction}>
             <div className={classes.eventsWrapper}>
               {panels()}
